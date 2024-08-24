@@ -1,0 +1,20 @@
+<nb-card>
+  <div class="icon-container">
+    <div class="icon status-{{ data?.status }}">
+      <nb-icon [icon]="'star'"></nb-icon>
+    </div>
+  </div>
+
+  <div class="details">
+    <div class="title h5">{{ data?.title }}</div>
+    <div>{{ data?.description }}</div>
+  </div>
+
+  <div class="actions">
+    <div>
+      <nb-icon class="mr-2" [icon]="'edit'"></nb-icon>
+      <nb-icon [icon]="'trash'"></nb-icon>
+    </div>
+    <small class="text-info">{{ data.date }}</small>
+  </div>
+</nb-card>
