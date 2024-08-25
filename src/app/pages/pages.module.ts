@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { NbMenuModule } from '@nebular/theme';
+import { NbButtonModule, NbCardModule, NbMenuModule } from '@nebular/theme';
 
 import { ThemeModule } from '../@theme/theme.module';
 import { PagesComponent } from './pages.component';
@@ -9,6 +9,7 @@ import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { TodoListModule } from './todo-list/todo-list.module';
 import { AuthModule } from './auth/auth.module';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   imports: [
@@ -20,7 +21,9 @@ import { AuthModule } from './auth/auth.module';
     MiscellaneousModule,
     TodoListModule,
     AuthModule,
+    NbCardModule,
+    NbButtonModule,
   ],
-  declarations: [PagesComponent],
+  declarations: [PagesComponent, ConfirmationDialogComponent],
 })
 export class PagesModule {}

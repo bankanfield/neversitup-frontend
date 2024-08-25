@@ -1,10 +1,19 @@
 <nb-card>
   <nb-card-header>TODO</nb-card-header>
   <nb-card-body>
-    <button nbButton status="primary" class="mb-2" (click)="openCreateTodoModal()">
+    <button
+      nbButton
+      status="primary"
+      class="mb-2"
+      (click)="openCreateTodoModal()"
+    >
       <nb-icon icon="plus"></nb-icon>Create
     </button>
-    <ngx-todo-list-item *ngFor="let item of list" [data]="item">
+    <ngx-todo-list-item
+      *ngFor="let item of list"
+      [data]="item"
+      (updateTodoEvent)="loadTodo()"
+    >
     </ngx-todo-list-item>
   </nb-card-body>
 </nb-card>

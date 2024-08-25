@@ -3,6 +3,7 @@ import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { TodoListItemStatuses } from '../../todo-list-item/todo-list-item-statuses.enum';
 import { TodoService } from '../../services/todo.service';
 import { TodoListItem } from '../../todo-list-item/todo-list-item.class';
+import { decorateErrorFromHttp } from '../../../../@core/utils/utils';
 
 @Component({
   selector: 'ngx-create-todo',
@@ -46,21 +47,15 @@ export class CreateTodoComponent {
       () => {
         this.toastService.success(
           'Todo created successful!',
-          'Todo created successful!'
+          'Successful!'
         );
         this.dialogRef.close(true);
       },
       (error) => {
-        let errorMessage = 'Unknown error occurred!';
-
-        if (error.error instanceof ErrorEvent) {
-          // Client-side or network error
-          errorMessage = `Error: ${error.error.message}`;
-        } else {
-          // Server-side error
-          errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-        }
-        this.toastService.danger(errorMessage, 'Failed to create todo!');
+        this.toastService.danger(
+          decorateErrorFromHttp(error),
+          'Failed to create todo!'
+        );
       }
     );
   }
