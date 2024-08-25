@@ -36,7 +36,7 @@ export class TodoListComponent implements OnInit {
   openCreateTodoModal() {
     this.dialogService
       .open(CreateTodoComponent)
-      .onClose.subscribe(({ success }: { success: boolean }) => {
+      .onClose.subscribe((success: boolean) => {
         if (success) {
           this.loadTodo();
         }

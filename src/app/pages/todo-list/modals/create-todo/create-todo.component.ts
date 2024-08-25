@@ -48,7 +48,7 @@ export class CreateTodoComponent {
           'Todo created successful!',
           'Todo created successful!'
         );
-        this.dialogRef.close({ success: true });
+        this.dialogRef.close(true);
       },
       (error) => {
         let errorMessage = 'Unknown error occurred!';
@@ -66,6 +66,6 @@ export class CreateTodoComponent {
   }
 
   close() {
-    this.dialogRef.close();
+    this.dialogRef.close(false);
   }
 }
