@@ -2,18 +2,18 @@ import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import {
   NbAuthComponent,
-  NbLoginComponent,
   NbLogoutComponent,
-  NbRegisterComponent,
   NbRequestPasswordComponent,
   NbResetPasswordComponent,
 } from '@nebular/auth';
+import { CustomLoginComponent } from './pages/auth/custom-login/custom-login.component';
+import { CustomRegisterComponent } from './pages/auth/custom-register/custom-register.component';
 
 export const routes: Routes = [
   {
     path: 'pages',
-    loadChildren: () => import('./pages/pages.module')
-      .then(m => m.PagesModule),
+    loadChildren: () =>
+      import('./pages/pages.module').then((m) => m.PagesModule),
   },
   {
     path: 'auth',
@@ -21,15 +21,16 @@ export const routes: Routes = [
     children: [
       {
         path: '',
-        component: NbLoginComponent,
+        redirectTo: 'login',
+        pathMatch: 'full',
       },
       {
         path: 'login',
-        component: NbLoginComponent,
+        component: CustomLoginComponent,
       },
       {
         path: 'register',
-        component: NbRegisterComponent,
+        component: CustomRegisterComponent,
       },
       {
         path: 'logout',
@@ -57,5 +58,4 @@ const config: ExtraOptions = {
   imports: [RouterModule.forRoot(routes, config)],
   exports: [RouterModule],
 })
-export class AppRoutingModule {
-}
+export class AppRoutingModule {}

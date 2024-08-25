@@ -8,6 +8,7 @@ import { ECommerceModule } from './e-commerce/e-commerce.module';
 import { PagesRoutingModule } from './pages-routing.module';
 import { MiscellaneousModule } from './miscellaneous/miscellaneous.module';
 import { TodoListModule } from './todo-list/todo-list.module';
+import { AuthModule } from './auth/auth.module';
 
 @NgModule({
   imports: [
@@ -18,10 +19,8 @@ import { TodoListModule } from './todo-list/todo-list.module';
     ECommerceModule,
     MiscellaneousModule,
     TodoListModule,
+    AuthModule,
   ],
-  declarations: [
-    PagesComponent,
-  ],
+  declarations: [PagesComponent],
 })
-export class PagesModule {
-}
+export class PagesModule {}

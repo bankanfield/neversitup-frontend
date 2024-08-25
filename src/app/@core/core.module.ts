@@ -1,6 +1,17 @@
-import { ModuleWithProviders, NgModule, Optional, SkipSelf } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NbAuthModule, NbDummyAuthStrategy } from '@nebular/auth';
+import {
+  getDeepFromObject,
+  NbAuthJWTToken,
+  NbAuthModule,
+  NbPasswordAuthStrategy,
+  NbPasswordAuthStrategyOptions,
+} from '@nebular/auth';
 import { NbSecurityModule, NbRoleProvider } from '@nebular/security';
 import { of as observableOf } from 'rxjs';
 
@@ -52,6 +63,7 @@ import { StatsProgressBarService } from './mock/stats-progress-bar.service';
 import { VisitorsAnalyticsService } from './mock/visitors-analytics.service';
 import { SecurityCamerasService } from './mock/security-cameras.service';
 import { MockDataModule } from './mock/mock-data.module';
+import { HttpErrorResponse } from '@angular/common/http';
 
 const socialLinks = [
   {
@@ -82,7 +94,10 @@ const DATA_SERVICES = [
   { provide: EarningData, useClass: EarningService },
   { provide: OrdersProfitChartData, useClass: OrdersProfitChartService },
   { provide: TrafficBarData, useClass: TrafficBarService },
-  { provide: ProfitBarAnimationChartData, useClass: ProfitBarAnimationChartService },
+  {
+    provide: ProfitBarAnimationChartData,
+    useClass: ProfitBarAnimationChartService,
+  },
   { provide: TemperatureHumidityData, useClass: TemperatureHumidityService },
   { provide: SolarData, useClass: SolarService },
   { provide: TrafficChartData, useClass: TrafficChartService },
@@ -104,19 +119,57 @@ export const NB_CORE_PROVIDERS = [
   ...MockDataModule.forRoot().providers,
   ...DATA_SERVICES,
   ...NbAuthModule.forRoot({
-
     strategies: [
-      NbDummyAuthStrategy.setup({
+      NbPasswordAuthStrategy.setup({
         name: 'email',
-        delay: 3000,
+        baseEndpoint: '/api/',
+        login: {
+          endpoint: 'auth/login',
+          method: 'post',
+        },
+        register: {
+          endpoint: 'users',
+          method: 'post',
+          requireValidToken: false,
+          redirect: {
+            success: 'auth/login',
+          },
+        },
+        logout: {
+          endpoint: 'auth/logout',
+          method: 'post',
+        },
+        errors: {
+          key: 'message',
+          getter: (
+            module: string,
+            res: HttpErrorResponse,
+            options: NbPasswordAuthStrategyOptions
+          ) =>
+            getDeepFromObject(
+              res.error,
+              options.errors.key,
+              options[module].defaultErrors
+            ),
+        },
+        token: {
+          class: NbAuthJWTToken,
+          key: 'access_token',
+        },
       }),
     ],
     forms: {
-      login: {
-        socialLinks: socialLinks,
-      },
-      register: {
-        socialLinks: socialLinks,
+      validation: {
+        password: {
+          minLength: 4,
+          maxLength: 20,
+          pattern: '^[a-zA-Z0-9_.-]*$', // Only alphanumeric, underscore, dot, hyphen
+        },
+        username: {
+          minLength: 4,
+          maxLength: 20,
+          pattern: '^[a-zA-Z0-9_.-]*$', // Only alphanumeric, underscore, dot, hyphen
+        },
       },
     },
   }).providers,
@@ -136,7 +189,8 @@ export const NB_CORE_PROVIDERS = [
   }).providers,
 
   {
-    provide: NbRoleProvider, useClass: NbSimpleRoleProvider,
+    provide: NbRoleProvider,
+    useClass: NbSimpleRoleProvider,
   },
   AnalyticsService,
   LayoutService,
@@ -146,12 +200,8 @@ export const NB_CORE_PROVIDERS = [
 ];
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-    NbAuthModule,
-  ],
+  imports: [CommonModule],
+  exports: [NbAuthModule],
   declarations: [],
 })
 export class CoreModule {
@@ -162,9 +212,7 @@ export class CoreModule {
   static forRoot(): ModuleWithProviders<CoreModule> {
     return {
       ngModule: CoreModule,
-      providers: [
-        ...NB_CORE_PROVIDERS,
-      ],
+      providers: [...NB_CORE_PROVIDERS],
     };
   }
 }
