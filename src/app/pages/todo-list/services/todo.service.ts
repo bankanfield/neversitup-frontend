@@ -33,4 +33,8 @@ export class TodoService {
   editTodo(id: string, todo: Partial<TodoListItem>) {
     return this.httpClient.patch(`${this.apiUrl}/${id}`, todo);
   }
+
+  toggleTodoCompleteStatus(id: string, completed: boolean) {
+    return this.httpClient.patch(`${this.apiUrl}/${id}`, { completed });
+  }
 }

@@ -70,4 +70,19 @@ export class TodoListItemComponent {
         }
       });
   }
+
+  toggleTodo(completed: boolean) {
+    this.todoService.toggleTodoCompleteStatus(this.data.id, completed).subscribe(()=>{
+      this.toastrService.success(
+        'Todo completed successful!',
+        'Successful!'
+      );
+      this.updateTodoEvent.emit(true);
+    }, (error)=>{
+      this.toastrService.danger(
+        decorateErrorFromHttp(error),
+        'Failed to complete Todo!'
+      );
+    });
+  }
 }

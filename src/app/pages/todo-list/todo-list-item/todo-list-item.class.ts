@@ -6,4 +6,5 @@ export class TodoListItem {
   description: string;
   type: TodoListItemTypes;
   dueDate: string;
+  completed: boolean;
 }

@@ -12,8 +12,10 @@
 
   <div class="actions">
     <div>
-      <nb-icon class="mr-2" [icon]="'edit'" (click)="editTodo()"></nb-icon>
-      <nb-icon [icon]="'trash'" (click)="deleteTodo()"></nb-icon>
+      <nb-icon *ngIf="!data.completed" class="mr-2" [icon]="'checkmark-circle-2'" status="success" (click)="toggleTodo(true)"></nb-icon>
+      <nb-icon *ngIf="data.completed" class="mr-2" [icon]="'undo'" status="warning" (click)="toggleTodo(false)"></nb-icon>
+      <nb-icon class="mr-2" [icon]="'edit'" (click)="editTodo()" status="info"></nb-icon>
+      <nb-icon [icon]="'trash'" (click)="deleteTodo()" status="danger"></nb-icon>
     </div>
     <small class="text-info"
       >Due date: {{ data.dueDate | date : 'dd MMM YYYY HH:mm' }}</small

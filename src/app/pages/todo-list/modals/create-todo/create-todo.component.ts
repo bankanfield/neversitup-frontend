@@ -40,6 +40,7 @@ export class CreateTodoComponent {
       description: this.description,
       dueDate: this.getISODate(),
       type: this.type,
+      completed: false,
     };
     this.todoService.createTodo(payload).subscribe(
       () => {
