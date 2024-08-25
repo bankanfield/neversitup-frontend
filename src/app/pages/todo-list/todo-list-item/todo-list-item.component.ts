@@ -29,7 +29,7 @@ export class TodoListItemComponent {
           id: this.data.id,
           title: this.data.title,
           description: this.data.description,
-          status: this.data.status,
+          type: this.data.type,
           dueDate: new Date(this.data.dueDate),
           dueTime: new Date(this.data.dueDate),
           isEdit: true,

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
-import { TodoListItemStatuses } from '../../todo-list-item/todo-list-item-statuses.enum';
+import { TodoListItemTypes } from '../../todo-list-item/todo-list-item-statuses.enum';
 import { TodoService } from '../../services/todo.service';
 import { TodoListItem } from '../../todo-list-item/todo-list-item.class';
 import { decorateErrorFromHttp } from '../../../../@core/utils/utils';
@@ -15,10 +15,10 @@ export class CreateTodoComponent {
   id?: string;
   title = '';
   description = '';
-  status: TodoListItemStatuses = TodoListItemStatuses.primary;
-  statusOptions = Object.values(TodoListItemStatuses).map((status) => ({
-    label: status,
-    value: status,
+  type: TodoListItemTypes = TodoListItemTypes.primary;
+  typeOptions = Object.values(TodoListItemTypes).map((type) => ({
+    label: type,
+    value: type,
   }));
   dueDate = new Date();
   dueTime = new Date();
@@ -38,7 +38,7 @@ export class CreateTodoComponent {
       title: this.title,
       description: this.description,
       dueDate: this.getISODate(),
-      status: this.status,
+      type: this.type,
     };
     this.todoService.createTodo(payload).subscribe(
       () => {
