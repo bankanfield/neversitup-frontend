@@ -44,12 +44,13 @@
     .details {
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: space-between;
       height: 100%;
-      @include nb-ltr(padding, 0 0.5rem 0 0.75rem);
-      @include nb-rtl(padding, 0 0.75rem 0 0.5rem);
+      padding: 0.625rem;
       border-left: 1px solid transparent;
       flex: 1;
+      white-space: nowrap;
+      overflow: hidden;
     }
 
     .title {
@@ -65,4 +66,9 @@
       padding: 0.625rem;
     }
   }
+  .custom-dialog-container {
+    max-width: 80%; /* Set your desired maximum width percentage */
+    width: 100%; /* Ensure dialog can take full width within max-width */
+  }
 }
+

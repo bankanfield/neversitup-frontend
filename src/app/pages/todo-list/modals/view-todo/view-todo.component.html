@@ -1,0 +1,11 @@
+<nb-card>
+  <nb-card-header>{{ data.title }}</nb-card-header>
+  <nb-card-body>
+    <p style="display: block; white-space: breakword;">
+      {{ data.description }}
+    </p>
+  </nb-card-body>
+  <nb-card-footer>
+    <p>Due date: {{ data.dueDate | date : 'dd MMMM YYYY hh:mm' }}</p>
+  </nb-card-footer>
+</nb-card>

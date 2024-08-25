@@ -18,6 +18,7 @@ import { CreateTodoComponent } from './modals/create-todo/create-todo.component'
 import { DeleteTodoComponent } from './modals/delete-todo/delete-todo.component';
 import { EditTodoComponent } from './modals/edit-todo/edit-todo.component';
 import { FormsModule } from '@angular/forms';
+import { ViewTodoComponent } from './modals/view-todo/view-todo.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { FormsModule } from '@angular/forms';
     CreateTodoComponent,
     DeleteTodoComponent,
     EditTodoComponent,
+    ViewTodoComponent,
   ],
   imports: [
     CommonModule,

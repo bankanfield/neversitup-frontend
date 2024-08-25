@@ -10,7 +10,8 @@ import { TodoService } from './services/todo.service';
   styleUrls: ['./todo-list.component.scss'],
 })
 export class TodoListComponent implements OnInit {
-  list: TodoListItem[] = [];
+  todoList: TodoListItem[] = [];
+  completedList: TodoListItem[] = [];
 
   constructor(
     private dialogService: NbDialogService,
@@ -24,8 +25,8 @@ export class TodoListComponent implements OnInit {
   loadTodo() {
     this.todoService.getTodo().subscribe(
       (response) => {
-        this.list = response;
-        console.log('Data loaded:', response);
+        this.todoList = response.filter((todo)=>(!todo.completed));
+        this.completedList = response.filter((todo)=>(todo.completed));
       },
       (error) => {
         console.error('Error loading data:', error);

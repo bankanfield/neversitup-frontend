@@ -5,6 +5,7 @@ import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/c
 import { TodoService } from '../services/todo.service';
 import { decorateErrorFromHttp } from '../../../@core/utils/utils';
 import { CreateTodoComponent } from '../modals/create-todo/create-todo.component';
+import { ViewTodoComponent } from '../modals/view-todo/view-todo.component';
 
 @Component({
   selector: 'ngx-todo-list-item',
@@ -22,7 +23,8 @@ export class TodoListItemComponent {
     private toastrService: NbToastrService
   ) {}
 
-  editTodo() {
+  editTodo(e: MouseEvent) {
+    e.stopPropagation();
     this.dialogService
       .open(CreateTodoComponent, {
         context: {
@@ -42,7 +44,8 @@ export class TodoListItemComponent {
       });
   }
 
-  deleteTodo() {
+  deleteTodo(e: MouseEvent) {
+    e.stopPropagation();
     this.dialogService
       .open(ConfirmationDialogComponent, {
         context: {
@@ -71,18 +74,32 @@ export class TodoListItemComponent {
       });
   }
 
-  toggleTodo(completed: boolean) {
-    this.todoService.toggleTodoCompleteStatus(this.data.id, completed).subscribe(()=>{
-      this.toastrService.success(
-        'Todo completed successful!',
-        'Successful!'
+  toggleTodo(e: MouseEvent, completed: boolean) {
+    e.stopPropagation();
+    this.todoService
+      .toggleTodoCompleteStatus(this.data.id, completed)
+      .subscribe(
+        () => {
+          this.toastrService.success(
+            'Todo completed successful!',
+            'Successful!'
+          );
+          this.updateTodoEvent.emit(true);
+        },
+        (error) => {
+          this.toastrService.danger(
+            decorateErrorFromHttp(error),
+            'Failed to complete Todo!'
+          );
+        }
       );
-      this.updateTodoEvent.emit(true);
-    }, (error)=>{
-      this.toastrService.danger(
-        decorateErrorFromHttp(error),
-        'Failed to complete Todo!'
-      );
+  }
+
+  openView() {
+    this.dialogService.open(ViewTodoComponent, {
+      context: {
+        data: this.data,
+      },
     });
   }
 }
