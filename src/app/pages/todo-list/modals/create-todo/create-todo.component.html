@@ -1,0 +1,86 @@
+<nb-card>
+  <nb-card-header>Create New TODO</nb-card-header>
+  <nb-card-body>
+    <form (ngSubmit)="onSubmit()" #createForm="ngForm">
+      <div class="form-group">
+        <label for="title">Title</label>
+        <input
+          nbInput
+          type="text"
+          id="title"
+          placeholder="title"
+          [(ngModel)]="title"
+          name="title"
+          required
+          class="form-control"
+          fullWidth
+        />
+      </div>
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea
+          nbInput
+          id="description"
+          placeholder="description"
+          [(ngModel)]="description"
+          name="description"
+          shape="round"
+          class="form-control"
+          fullWidth
+        ></textarea>
+      </div>
+      <div class="form-group">
+        <label for="status">Status</label>
+        <nb-select
+          fullWidth
+          placeholder="Select an option"
+          class="mb-2"
+          [(selected)]="status"
+        >
+          <nb-option
+            *ngFor="let option of statusOptions"
+            [value]="option.value"
+          >
+            <span class="custom-option status-{{ option.value }}">{{
+              option.label
+            }}</span>
+          </nb-option>
+        </nb-select>
+      </div>
+      <div class="form-group">
+        <label>Due date</label>
+        <p class="subtitle">
+          Selected date: {{ dueDate | date }} {{ dueTime | date : 'HH:mm' }}
+        </p>
+        <nb-calendar
+          [(date)]="dueDate"
+          [boundingMonth]="true"
+          fullWidth
+        ></nb-calendar>
+        <div class="form-group mt-2">
+          <label for="timePicker">Time</label>
+          <input
+            fullWidth
+            nbInput
+            [(ngModel)]="dueTime"
+            type="text"
+            name="dueTime"
+            [nbTimepicker]="timepicker"
+            required
+          />
+          <nb-timepicker #timepicker></nb-timepicker>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-danger" (click)="close()">Cancel</button>
+        <button
+          type="submit"
+          class="btn btn-success"
+          [disabled]="!createForm.form.valid"
+        >
+          Create
+        </button>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>

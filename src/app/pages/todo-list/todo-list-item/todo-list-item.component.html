@@ -12,9 +12,11 @@
 
   <div class="actions">
     <div>
-      <nb-icon class="mr-2" [icon]="'edit'"></nb-icon>
-      <nb-icon [icon]="'trash'"></nb-icon>
+      <nb-icon class="mr-2" [icon]="'edit'" (click)="editTodo()"></nb-icon>
+      <nb-icon [icon]="'trash'" (click)="deleteTodo()"></nb-icon>
     </div>
-    <small class="text-info">{{ data.date }}</small>
+    <small class="text-info"
+      >Due date: {{ data.dueDate | date : 'dd MMM YYYY HH:mm' }}</small
+    >
   </div>
 </nb-card>
