@@ -8,12 +8,14 @@ import {
 } from '@nebular/auth';
 import { CustomLoginComponent } from './pages/auth/custom-login/custom-login.component';
 import { CustomRegisterComponent } from './pages/auth/custom-register/custom-register.component';
+import { AuthGuard } from './@core/guards/auth.guard';
 
 export const routes: Routes = [
   {
     path: 'pages',
     loadChildren: () =>
       import('./pages/pages.module').then((m) => m.PagesModule),
+    canActivate: [AuthGuard],
   },
   {
     path: 'auth',
