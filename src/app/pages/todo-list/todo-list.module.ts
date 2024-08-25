@@ -19,6 +19,7 @@ import { DeleteTodoComponent } from './modals/delete-todo/delete-todo.component'
 import { EditTodoComponent } from './modals/edit-todo/edit-todo.component';
 import { FormsModule } from '@angular/forms';
 import { ViewTodoComponent } from './modals/view-todo/view-todo.component';
+import { CustomTableComponent } from './custom-table/custom-table.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { ViewTodoComponent } from './modals/view-todo/view-todo.component';
     DeleteTodoComponent,
     EditTodoComponent,
     ViewTodoComponent,
+    CustomTableComponent,
   ],
   imports: [
     CommonModule,

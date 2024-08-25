@@ -6,6 +6,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ECommerceComponent } from './e-commerce/e-commerce.component';
 import { NotFoundComponent } from './miscellaneous/not-found/not-found.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
+import { CustomTableComponent } from './todo-list/custom-table/custom-table.component';
 
 const routes: Routes = [{
   path: '',
@@ -72,6 +73,10 @@ const routes: Routes = [{
     {
       path: 'todo-list',
       component: TodoListComponent,
+    },
+    {
+      path: 'custom-table',
+      component: CustomTableComponent,
     },
     {
       path: '',
