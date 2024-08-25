@@ -1,7 +1,7 @@
 <nb-card>
-  <nb-card-header>Create New TODO</nb-card-header>
+  <nb-card-header>{{ isEdit ? 'Edit' : 'Create New' }} TODO</nb-card-header>
   <nb-card-body>
-    <form (ngSubmit)="onSubmit()" #createForm="ngForm">
+    <form (ngSubmit)="onSubmit(createForm)" #createForm="ngForm">
       <div class="form-group">
         <label for="title">Title</label>
         <input
@@ -76,9 +76,9 @@
         <button
           type="submit"
           class="btn btn-success"
-          [disabled]="!createForm.form.valid"
+          [disabled]="isEdit ? !createForm.dirty : !createForm.form.valid"
         >
-          Create
+          {{ isEdit ? 'Edit' : 'Create' }}
         </button>
       </div>
     </form>

@@ -29,4 +29,8 @@ export class TodoService {
   deleteTodo(id: string): Observable<any> {
     return this.httpClient.delete<any>(`${this.apiUrl}/${id}`);
   }
+
+  editTodo(id: string, todo: Partial<TodoListItem>) {
+    return this.httpClient.patch(`${this.apiUrl}/${id}`, todo);
+  }
 }

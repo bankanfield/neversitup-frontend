@@ -4,6 +4,7 @@ import { NbDialogService, NbToastrService } from '@nebular/theme';
 import { ConfirmationDialogComponent } from '../../dialogs/confirmation-dialog/confirmation-dialog.component';
 import { TodoService } from '../services/todo.service';
 import { decorateErrorFromHttp } from '../../../@core/utils/utils';
+import { CreateTodoComponent } from '../modals/create-todo/create-todo.component';
 
 @Component({
   selector: 'ngx-todo-list-item',
@@ -21,7 +22,25 @@ export class TodoListItemComponent {
     private toastrService: NbToastrService
   ) {}
 
-  editTodo() {}
+  editTodo() {
+    this.dialogService
+      .open(CreateTodoComponent, {
+        context: {
+          id: this.data.id,
+          title: this.data.title,
+          description: this.data.description,
+          status: this.data.status,
+          dueDate: new Date(this.data.dueDate),
+          dueTime: new Date(this.data.dueDate),
+          isEdit: true,
+        },
+      })
+      .onClose.subscribe((confirmed: boolean) => {
+        if (confirmed) {
+          this.updateTodoEvent.emit(true);
+        }
+      });
+  }
 
   deleteTodo() {
     this.dialogService

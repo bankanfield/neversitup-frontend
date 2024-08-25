@@ -4,6 +4,7 @@ import { TodoListItemStatuses } from '../../todo-list-item/todo-list-item-status
 import { TodoService } from '../../services/todo.service';
 import { TodoListItem } from '../../todo-list-item/todo-list-item.class';
 import { decorateErrorFromHttp } from '../../../../@core/utils/utils';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'ngx-create-todo',
@@ -11,6 +12,7 @@ import { decorateErrorFromHttp } from '../../../../@core/utils/utils';
   styleUrls: ['./create-todo.component.scss'],
 })
 export class CreateTodoComponent {
+  id?: string;
   title = '';
   description = '';
   status: TodoListItemStatuses = TodoListItemStatuses.primary;
@@ -20,6 +22,7 @@ export class CreateTodoComponent {
   }));
   dueDate = new Date();
   dueTime = new Date();
+  isEdit = false;
 
   constructor(
     protected dialogRef: NbDialogRef<CreateTodoComponent>,
@@ -30,25 +33,16 @@ export class CreateTodoComponent {
     this.dueTime.setMinutes(0);
   }
 
-  onSubmit() {
+  createTodo() {
     const payload: TodoListItem = {
       title: this.title,
       description: this.description,
-      dueDate: new Date(
-        this.dueDate.getFullYear(),
-        this.dueDate.getMonth(),
-        this.dueDate.getDate(),
-        this.dueTime.getHours(),
-        this.dueTime.getMinutes()
-      ).toISOString(),
+      dueDate: this.getISODate(),
       status: this.status,
     };
     this.todoService.createTodo(payload).subscribe(
       () => {
-        this.toastService.success(
-          'Todo created successful!',
-          'Successful!'
-        );
+        this.toastService.success('Edit Todo successfully!', 'Success!');
         this.dialogRef.close(true);
       },
       (error) => {
@@ -58,6 +52,50 @@ export class CreateTodoComponent {
         );
       }
     );
+  }
+
+  getISODate() {
+    return new Date(
+      this.dueDate.getFullYear(),
+      this.dueDate.getMonth(),
+      this.dueDate.getDate(),
+      this.dueTime.getHours(),
+      this.dueTime.getMinutes()
+    ).toISOString();
+  }
+
+  editTodo(form: NgForm) {
+    const dirtyFields: Partial<TodoListItem> = {};
+    Object.keys(form.controls).forEach((key) => {
+      const control = form.controls[key];
+      if (control.dirty) {
+        if (key === 'dueDate' || key === 'dueTime') {
+          dirtyFields.dueDate = this.getISODate();
+        } else {
+          dirtyFields[key] = control.value;
+        }
+      }
+    });
+    this.todoService.editTodo(this.id, dirtyFields).subscribe(
+      () => {
+        this.toastService.success('Edit Todo successfully!', 'Success!');
+        this.dialogRef.close(true);
+      },
+      (error) => {
+        this.toastService.danger(
+          decorateErrorFromHttp(error),
+          'Failed to edit todo!'
+        );
+      }
+    );
+  }
+
+  onSubmit(form: NgForm) {
+    if (this.isEdit) {
+      this.editTodo(form);
+    } else {
+      this.createTodo();
+    }
   }
 
   close() {
