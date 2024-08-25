@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { NbDialogRef, NbToastrService } from '@nebular/theme';
 import { TodoListItemStatuses } from '../../todo-list-item/todo-list-item-statuses.enum';
 import { TodoService } from '../../services/todo.service';
-import { TodoListItem } from '../../todo-list-item/todo-list-item.interface';
+import { TodoListItem } from '../../todo-list-item/todo-list-item.class';
 
 @Component({
   selector: 'ngx-create-todo',
@@ -48,7 +48,7 @@ export class CreateTodoComponent {
           'Todo created successful!',
           'Todo created successful!'
         );
-        this.dialogRef.close();
+        this.dialogRef.close({ success: true });
       },
       (error) => {
         let errorMessage = 'Unknown error occurred!';

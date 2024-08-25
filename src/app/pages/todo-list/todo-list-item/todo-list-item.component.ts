@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { TodoListItem } from './todo-list-item.interface';
+import { TodoListItem } from './todo-list-item.class';
 
 @Component({
   selector: 'ngx-todo-list-item',

@@ -1,6 +1,6 @@
 import { TodoListItemStatuses } from './todo-list-item-statuses.enum';
 
-export interface TodoListItem {
+export class TodoListItem {
   title: string;
   description: string;
   status: TodoListItemStatuses;
