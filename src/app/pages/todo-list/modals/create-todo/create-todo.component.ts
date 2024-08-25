@@ -23,6 +23,7 @@ export class CreateTodoComponent {
   dueDate = new Date();
   dueTime = new Date();
   isEdit = false;
+  dueDateDirty = false;
 
   constructor(
     protected dialogRef: NbDialogRef<CreateTodoComponent>,
@@ -64,18 +65,25 @@ export class CreateTodoComponent {
     ).toISOString();
   }
 
+  dueDateChange() {
+    this.dueDateDirty = true;
+  }
+
   editTodo(form: NgForm) {
     const dirtyFields: Partial<TodoListItem> = {};
     Object.keys(form.controls).forEach((key) => {
       const control = form.controls[key];
       if (control.dirty) {
-        if (key === 'dueDate' || key === 'dueTime') {
+        if (key === 'dueTime') {
           dirtyFields.dueDate = this.getISODate();
         } else {
           dirtyFields[key] = control.value;
         }
       }
     });
+    if (this.dueDateDirty) {
+      dirtyFields.dueDate = this.getISODate();
+    }
     this.todoService.editTodo(this.id, dirtyFields).subscribe(
       () => {
         this.toastService.success('Edit Todo successfully!', 'Success!');

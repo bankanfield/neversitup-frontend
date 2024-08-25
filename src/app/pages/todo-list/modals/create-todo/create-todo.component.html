@@ -56,6 +56,7 @@
           [boundingMonth]="true"
           fullWidth
           [(date)]="dueDate"
+          (dateChange)="dueDateChange()"
         ></nb-calendar>
         <div class="form-group mt-2">
           <label for="timePicker">Time</label>
@@ -76,7 +77,7 @@
         <button
           type="submit"
           class="btn btn-success"
-          [disabled]="isEdit ? !createForm.dirty : !createForm.form.valid"
+          [disabled]="isEdit ? !createForm.dirty && !dueDateDirty : !createForm.form.valid"
         >
           {{ isEdit ? 'Edit' : 'Create' }}
         </button>
