@@ -25,8 +25,18 @@ export class TodoListComponent implements OnInit {
   loadTodo() {
     this.todoService.getTodo().subscribe(
       (response) => {
-        this.todoList = response.filter((todo)=>(!todo.completed));
-        this.completedList = response.filter((todo)=>(todo.completed));
+        this.todoList = response
+          .filter((todo) => !todo.completed)
+          .sort(
+            (a, b) =>
+              new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+          );
+        this.completedList = response
+          .filter((todo) => todo.completed)
+          .sort(
+            (a, b) =>
+              new Date(a.dueDate).getTime() - new Date(b.dueDate).getTime()
+          );
       },
       (error) => {
         console.error('Error loading data:', error);
